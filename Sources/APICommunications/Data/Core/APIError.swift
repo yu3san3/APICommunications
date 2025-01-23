@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum APIError: LocalizedError {
+public enum APIError: LocalizedError {
     case server(ServerError, logMessage: String? = nil)
     case jsonDecoding(logMessage: String? = nil)
     case requestTimedOut
@@ -41,8 +41,18 @@ enum APIError: LocalizedError {
     }
 }
 
-protocol ServerError: Decodable, Sendable {
-    var type: String? { get }
-    var message: String { get }
-    var code: Int? { get }
+public struct ServerError: Decodable, Sendable {
+    public let type: String?
+    public let message: String
+    public let code: Int?
+
+    public init(
+        type: String?,
+        message: String,
+        code: Int?
+    ) {
+        self.type = type
+        self.message = message
+        self.code = code
+    }
 }

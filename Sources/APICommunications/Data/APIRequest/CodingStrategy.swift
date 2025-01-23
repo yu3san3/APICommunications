@@ -1,6 +1,6 @@
 import Foundation
 
-enum CodingStrategy {
+public enum CodingStrategy {
     case convertSnakeCase
     case useDefaultKeys
 

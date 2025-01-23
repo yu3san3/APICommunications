@@ -1,7 +1,7 @@
 import Foundation
 import OSLog
 
-struct APIClient<R: APIRequest>: Initializable {
+public struct APIClient<R: APIRequest>: Initializable {
     let logger = Logger(label: "APIClient<\(R.self)>")
 
     private let session: URLSession = {
@@ -11,7 +11,9 @@ struct APIClient<R: APIRequest>: Initializable {
         return URLSession(configuration: configuration)
     }()
 
-    func request(with request: R) async throws -> R.Response {
+    public init() {}
+
+    public func request(with request: R) async throws -> R.Response {
         logger.info("Request Started: \(type(of: request))")
         logger.trace("Request Detail: \(type(of: request))\n\(request.prettyPrintedRequestString)")
 

@@ -1,5 +1,5 @@
 import Foundation
 
-protocol APIErrorResponse {
+public protocol APIErrorResponse {
     func mapToServerError() -> ServerError
 }

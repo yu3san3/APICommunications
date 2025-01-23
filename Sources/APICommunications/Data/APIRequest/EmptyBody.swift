@@ -1,3 +1,3 @@
 import Foundation
 
-struct EmptyBody: Encodable {}
+public struct EmptyBody: Encodable {}

@@ -1,14 +1,14 @@
 import Foundation
 
-protocol Initializable {
+public protocol Initializable {
     init()
 }
 
-struct UsecaseImpl<C: Initializable, M: Initializable> {
-    let client: C
-    let mapper: M
+public struct UsecaseImpl<C: Initializable, M: Initializable> {
+    public let client: C
+    public let mapper: M
 
-    init() {
+    public init() {
         client = .init()
         mapper = .init()
     }

@@ -1,5 +1,7 @@
 import Foundation
 
+// TODO: 別のライブラリに分割
+
 extension Optional where Wrapped: CustomStringConvertible {
     var descriptionOrNil: String {
         self?.description ?? "nil"

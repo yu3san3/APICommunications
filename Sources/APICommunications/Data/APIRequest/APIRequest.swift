@@ -1,6 +1,6 @@
 import Foundation
 
-protocol APIRequest {
+public protocol APIRequest {
     associatedtype Response: Decodable
     associatedtype ErrorResponse: Decodable & APIErrorResponse
     associatedtype HTTPBody: Encodable
@@ -16,7 +16,8 @@ protocol APIRequest {
 }
 
 extension APIRequest {
-    static var jsonHeaders: [String: String] {
+    /// Set `Content-Type` and `Accept key` to `application/json`
+    public static var defaultJsonHeaders: [String: String] {
         [
             "Content-Type": "application/json",
             "Accept": "application/json"
