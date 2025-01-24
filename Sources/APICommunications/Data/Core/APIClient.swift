@@ -14,8 +14,8 @@ public struct APIClient<R: APIRequest>: Initializable {
     public init() {}
 
     public func request(with request: R) async throws -> R.Response {
-        logger.info("Request Started: \(type(of: request))")
-        logger.trace("Request Detail: \(type(of: request))\n\(request.prettyPrintedRequest)")
+        logger.info("Request Started: \(R.self)")
+        logger.trace("Request Detail: \(R.self)\n\(request.prettyPrintedRequest)")
 
         do {
             let urlRequest = try makeUrlRequest(from: request)
@@ -42,7 +42,7 @@ public struct APIClient<R: APIRequest>: Initializable {
                     keyDecodingStrategy: request.codingStrategy.decoding
                 )
 
-                logger.info("Request Success: \(type(of: request))")
+                logger.info("Request Success: \(R.self)")
 
                 return response
             default:
