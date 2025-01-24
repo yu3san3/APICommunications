@@ -1,7 +1,7 @@
 import SwiftUI
 
 public enum APIError: LocalizedError {
-    case server(ServerError, logMessage: String? = nil)
+    case server(APIErrorResponse, logMessage: String? = nil)
     case jsonDecoding(logMessage: String? = nil)
     case requestTimedOut
     case mapping
@@ -10,18 +10,20 @@ public enum APIError: LocalizedError {
     var message: String.LocalizationValue {
         switch self {
         case let .server(error, _):
-            """
-            \(error.code ?? 9999): \(error.type ?? "Unknown")
-            \(error.message)
+            let serverError = error.mapToServerError()
+
+            return """
+            \(serverError.code ?? 9999): \(serverError.type ?? "Unknown")
+            \(serverError.message)
             """
         case .jsonDecoding:
-            "JsonDecodingFailed"
+            return "JsonDecodingFailed"
         case .requestTimedOut:
-            "RequestTimedOut"
+            return "RequestTimedOut"
         case .mapping:
-            "MappingFailed"
+            return "MappingFailed"
         case .unknown:
-            "Unknown"
+            return "Unknown"
         }
     }
 

@@ -51,10 +51,9 @@ public struct APIClient<R: APIRequest>: Initializable {
                     from: data,
                     keyDecodingStrategy: request.codingStrategy.decoding
                 )
-                let error = errorResult.mapToServerError()
 
                 throw APIError.server(
-                    error,
+                    errorResult,
                     logMessage: "Invalid Status Code \(httpResponse.statusCode)."
                 )
             }
