@@ -10,7 +10,7 @@ public protocol APIRequest {
     var scheme: String { get }
     var host: String { get }
     var path: String { get }
-    var headers: [String: String] { get }
+    var headers: [String: String] { get set }
     var body: HTTPBody { get }
     var queryItems: [URLQueryItem] { get }
 }
@@ -24,14 +24,6 @@ extension APIRequest {
         ]
     }
 
-    static func authorizationHeaders(accessToken: String) -> [String: String] {
-        [
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer \(accessToken)"
-        ]
-    }
-
     var prettyPrintedRequest: String {
         return """
         method: \(httpMethod.methodName),
@@ -41,5 +33,15 @@ extension APIRequest {
         body: \(body.prettyFormatted),
         queryItems: \(queryItems.prettyFormatted)
         """
+    }
+
+    public mutating func appendHeaders(_ additionalHeaders: [String: String]) {
+        additionalHeaders.forEach { key, value in
+            headers[key] = value
+        }
+    }
+
+    public mutating func appendAuthorizationHeader(value: String) {
+        headers["Authorization"] = value
     }
 }
