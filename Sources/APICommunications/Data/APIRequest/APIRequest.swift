@@ -1,9 +1,9 @@
 import Foundation
 
 public protocol APIRequest {
-    associatedtype Response: Decodable
-    associatedtype ErrorResponse: Decodable & APIErrorResponse
-    associatedtype HTTPBody: Encodable
+    associatedtype Response: APIResponse
+    associatedtype ErrorResponse: APIErrorResponse
+    associatedtype HTTPBody: APIHTTPBody
 
     var codingStrategy: CodingStrategy { get }
     var httpMethod: HTTPMethod { get }

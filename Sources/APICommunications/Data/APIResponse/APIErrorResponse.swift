@@ -1,5 +1,5 @@
 import Foundation
 
-public protocol APIErrorResponse: Sendable {
+public protocol APIErrorResponse: Decodable, Sendable {
     func mapToServerError() -> ServerError
 }
