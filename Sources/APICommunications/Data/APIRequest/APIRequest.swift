@@ -34,7 +34,7 @@ extension APIRequest {
 
     var prettyPrintedRequest: String {
         return """
-        method: \(httpMethod.rawValue.uppercased()),
+        method: \(httpMethod.methodName),
         baseUrl: \(scheme)://\(host),
         path: \(path),
         headers: \(headers.prettyFormatted),
