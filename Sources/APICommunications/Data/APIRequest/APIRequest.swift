@@ -32,14 +32,14 @@ extension APIRequest {
         ]
     }
 
-    var prettyPrintedRequestString: String {
+    var prettyPrintedRequest: String {
         return """
         method: \(httpMethod.rawValue.uppercased()),
         baseUrl: \(scheme)://\(host),
         path: \(path),
-        headers: \(headers.prettyPrintedJsonString),
-        body: \(body.prettyPrintedJsonString),
-        queryItems: \(queryItems.prettyPrintedJsonString)
+        headers: \(headers.prettyFormatted),
+        body: \(body.prettyFormatted),
+        queryItems: \(queryItems.prettyFormatted)
         """
     }
 }

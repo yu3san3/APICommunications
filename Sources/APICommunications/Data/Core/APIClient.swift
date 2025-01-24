@@ -15,7 +15,7 @@ public struct APIClient<R: APIRequest>: Initializable {
 
     public func request(with request: R) async throws -> R.Response {
         logger.info("Request Started: \(type(of: request))")
-        logger.trace("Request Detail: \(type(of: request))\n\(request.prettyPrintedRequestString)")
+        logger.trace("Request Detail: \(type(of: request))\n\(request.prettyPrintedRequest)")
 
         do {
             let urlRequest = try makeUrlRequest(from: request)
@@ -30,8 +30,8 @@ public struct APIClient<R: APIRequest>: Initializable {
 
             logger.trace("""
             Response returned: \(R.Response.self)
-            headers: \(httpResponse.allHeaderFields.prettyPrintedString)
-            response: \(data.prettyPrintedJsonString)
+            headers: \(httpResponse.allHeaderFields.prettyFormatted)
+            response: \(data.prettyFormatted)
             """)
 
             switch httpResponse.statusCode {

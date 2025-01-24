@@ -1,12 +1,5 @@
+import PrettyFormatter
 import Foundation
-
-// TODO: 別のライブラリに分割
-
-extension Optional where Wrapped: CustomStringConvertible {
-    var descriptionOrNil: String {
-        self?.description ?? "nil"
-    }
-}
 
 extension URLQueryItem: Encodable {
     public func encode(to encoder: Encoder) throws {
@@ -21,43 +14,9 @@ extension URLQueryItem: Encodable {
     }
 }
 
-// MARK: - PrettyPrintedString
-
-extension Data {
-    var prettyPrintedJsonString: String {
-        guard let object = try? JSONSerialization.jsonObject(with: self),
-              let data = try? JSONSerialization.data(
-                withJSONObject: object,
-                options: [.prettyPrinted]
-              ),
-              let string = String(data: data, encoding: .utf8)
-        else {
-            return "nil"
-        }
-
-        return string
-    }
-}
-
-extension Dictionary where Key == AnyHashable, Value: Any {
-    var prettyPrintedString: String {
-        guard let data = try? JSONSerialization.data(
-            withJSONObject: self,
-            options: [.prettyPrinted]
-        ) else {
-            return "nil"
-        }
-
-        return data.prettyPrintedJsonString
-    }
-}
-
-extension Encodable {
-    var prettyPrintedJsonString: String {
-        guard let data = try? JSONEncoder().encode(self) else {
-            return "nil"
-        }
-
-        return data.prettyPrintedJsonString
+// Extension for allHttpHeaders property.
+extension Dictionary where Key == AnyHashable, Value == Any {
+    var prettyFormatted: String {
+        PrettyFormatter().prettyFormatted(self)
     }
 }
