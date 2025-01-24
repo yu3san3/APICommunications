@@ -16,9 +16,13 @@ let package = Package(
             targets: ["APICommunications"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/yu3san3/PrettyFormatter", branch: "main")
+    ],
     targets: [
         .target(
-            name: "APICommunications"
+            name: "APICommunications",
+            dependencies: ["PrettyFormatter"]
         ),
         .testTarget(
             name: "APICommunicationsTests",
