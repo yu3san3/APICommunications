@@ -10,7 +10,7 @@ public protocol APIRequest {
     var scheme: String { get }
     var host: String { get }
     var path: String { get }
-    var headers: [String: String] { get set }
+    var headers: [String: String] { get }
     var body: HTTPBody { get }
     var queryItems: [URLQueryItem] { get }
 }
@@ -24,6 +24,22 @@ extension APIRequest {
         ]
     }
 
+    public static func getHeaders(with headers: [String: String]) -> [String: String] {
+        var tmp = defaultJsonHeaders
+        tmp.merge(headers) { _, new in new }
+        return tmp
+    }
+
+    public static func getHeadersWithAuthorizationHeader(
+        value: String,
+        with headers: [String: String] = [:]
+    ) -> [String: String] {
+        var tmp = defaultJsonHeaders
+        tmp["Authorization"] = value
+        tmp.merge(headers) { _, new in new }
+        return tmp
+    }
+
     var prettyPrintedRequest: String {
         return """
         method: \(httpMethod.methodName),
@@ -33,15 +49,5 @@ extension APIRequest {
         body: \(body.prettyFormatted),
         queryItems: \(queryItems.prettyFormatted)
         """
-    }
-
-    public mutating func appendHeaders(_ additionalHeaders: [String: String]) {
-        additionalHeaders.forEach { key, value in
-            headers[key] = value
-        }
-    }
-
-    public mutating func appendAuthorizationHeader(value: String) {
-        headers["Authorization"] = value
     }
 }
