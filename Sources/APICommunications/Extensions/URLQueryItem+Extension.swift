@@ -1,4 +1,3 @@
-import PrettyFormatter
 import Foundation
 
 extension URLQueryItem: Encodable {
@@ -11,12 +10,5 @@ extension URLQueryItem: Encodable {
     private enum CodingKeys: String, CodingKey {
         case name
         case value
-    }
-}
-
-// Extension for allHttpHeaders property.
-extension Dictionary where Key == AnyHashable, Value == Any {
-    var prettyFormatted: String {
-        PrettyFormatter().prettyFormatted(self)
     }
 }
