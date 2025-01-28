@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "APICommunications",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v15),
         .macOS(.v12),
@@ -22,7 +23,8 @@ let package = Package(
     targets: [
         .target(
             name: "APICommunications",
-            dependencies: ["PrettyFormatter"]
+            dependencies: ["PrettyFormatter"],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "APICommunicationsTests",

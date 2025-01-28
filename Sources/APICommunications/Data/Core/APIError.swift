@@ -7,7 +7,45 @@ public enum APIError: LocalizedError {
     case mapping
     case unknown(logMessage: String? = nil)
 
-    var message: String.LocalizationValue {
+    public var localizedTitle: String {
+        .init(localized: title)
+    }
+
+    public var localizedMessage: String {
+        .init(localized: message)
+    }
+
+    var logMessage: String {
+        switch self {
+        case let .server(_, logMessage):
+            logMessage.descriptionOrNil
+        case let .jsonDecoding(logMessage):
+            logMessage.descriptionOrNil
+        case .requestTimedOut:
+            "Request Timed Out"
+        case .mapping:
+            "Mapping Error"
+        case let .unknown(logMessage):
+            logMessage.descriptionOrNil
+        }
+    }
+
+    private var title: String.LocalizationValue {
+        switch self {
+        case .server:
+            "ServerErrorTitle"
+        case .jsonDecoding:
+            "JsonDecodingFailedTitle"
+        case .requestTimedOut:
+            "RequestTimedOutTitle"
+        case .mapping:
+            "MappingFailedTitle"
+        case .unknown:
+            "UnknownTitle"
+        }
+    }
+
+    private var message: String.LocalizationValue {
         switch self {
         case let .server(error, _):
             let serverError = error.mapToServerError()
@@ -16,29 +54,10 @@ public enum APIError: LocalizedError {
             \(serverError.code ?? 9999): \(serverError.type ?? "Unknown")
             \(serverError.message)
             """
-        case .jsonDecoding:
-            return "JsonDecodingFailed"
-        case .requestTimedOut:
-            return "RequestTimedOut"
-        case .mapping:
-            return "MappingFailed"
-        case .unknown:
-            return "Unknown"
-        }
-    }
-
-    var logMessage: String {
-        switch self {
-        case let .server(_, message):
-            message.descriptionOrNil
-        case let .jsonDecoding(message):
-            message.descriptionOrNil
-        case .requestTimedOut:
-            "Request Timed Out"
-        case .mapping:
-            "Mapping Error"
-        case let .unknown(message):
-            message.descriptionOrNil
+        case .jsonDecoding, .mapping:
+            return "ContactDeveloperIfOccursRepeatedlyMessage"
+        case .requestTimedOut, .unknown:
+            return "TryAgainAfterWaitingMessage"
         }
     }
 }
