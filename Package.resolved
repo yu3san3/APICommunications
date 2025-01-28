@@ -1,13 +1,13 @@
 {
-  "originHash" : "061c7504648bb73a41e5dc0e8ea9b9843a0b6bf0e4132bcd1d06affc7c8ff89c",
+  "originHash" : "86e2837f326a659028783358ea9ae0eb736202dc938f12797df0fa23ca467f0e",
   "pins" : [
     {
       "identity" : "prettyformatter",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yu3san3/PrettyFormatter",
       "state" : {
-        "branch" : "main",
-        "revision" : "3d9df735e60a5239516388420f7f6a424a3386c6"
+        "revision" : "e6c49260e6771772e88cbd7a11616b7a04c68fa4",
+        "version" : "0.1.0"
       }
     }
   ],

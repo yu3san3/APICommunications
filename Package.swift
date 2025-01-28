@@ -18,7 +18,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/yu3san3/PrettyFormatter", branch: "main")
+        .package(
+            url: "https://github.com/yu3san3/PrettyFormatter",
+            .upToNextMajor(from: "0.1.0")
+        )
     ],
     targets: [
         .target(
