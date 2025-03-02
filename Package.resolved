@@ -1,0 +1,15 @@
+{
+  "originHash" : "cc40b0a3a0766f988a065e3d1c07bd51a2c4e4b9e515091c763355e45832b477",
+  "pins" : [
+    {
+      "identity" : "prettyformatter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yu3san3/PrettyFormatter",
+      "state" : {
+        "revision" : "65f7f6b97a0b3c28fc3bb3c03c0d0053f39677f4",
+        "version" : "0.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}
