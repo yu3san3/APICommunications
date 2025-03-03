@@ -26,32 +26,42 @@ extension APIRequest {
         ]
     }
 
-    /// 指定されたヘッダーをデフォルトのJSONヘッダーと統合します。
+    /// デフォルトのJSONヘッダーと指定されたヘッダーを統合した新しい辞書を返します。
     ///
-    /// - Parameter headers: 追加するヘッダーの辞書。
-    /// - Returns: デフォルトのJSONヘッダーに指定されたヘッダーを統合した辞書。
-    public static func mergedHeaders(with headers: [String: String]) -> [String: String] {
-        var tmp = defaultJsonHeaders
-        tmp.merge(headers) { _, new in new }
-        return tmp
+    /// `defaultHeaders` に `headers` を統合し、キーが重複した場合は `headers` の値を優先します。
+    ///
+    /// - Parameters:
+    ///   - additionalHeaders: 追加するヘッダーの辞書。
+    ///   - baseHeaders: 基本となるヘッダー（デフォルトは `defaultJsonHeaders`）。
+    /// - Returns: `baseHeaders` に `additionalHeaders` を統合した新しい辞書。
+    public static func headers(
+        merging additionalHeaders: [String: String],
+        baseHeaders: [String: String] = defaultJsonHeaders
+    ) -> [String: String] {
+        baseHeaders.merging(additionalHeaders, uniquingKeysWith: { _, new in new })
     }
 
     /// 認証トークンを含むヘッダーを生成します。
     ///
-    /// `Authorization` ヘッダーをデフォルトのJSONヘッダーに追加し、さらに指定された追加ヘッダーを統合します。
+    /// `Authorization` ヘッダーを基本ヘッダーに追加し、さらに指定された追加ヘッダーを統合します。
     ///
     /// - Parameters:
     ///   - token: `Authorization` ヘッダーに設定する認証トークン。
-    ///   - headers: 追加するヘッダーの辞書（デフォルトは空の辞書）。
-    /// - Returns: `Authorization` ヘッダーを含むデフォルトのJSONヘッダーと追加ヘッダーを統合した辞書。
-    public static func mergedHeadersWithAuthorization(
+    ///   - type: 認証方式 (`Bearer` や `Basic` など)。デフォルトは `Bearer`。
+    ///   - additionalHeaders: 追加するヘッダーの辞書（デフォルトは空の辞書）。
+    ///   - baseHeaders: 基本となるヘッダー（デフォルトは `defaultJsonHeaders`）。
+    /// - Returns: `Authorization` ヘッダーを含む基本ヘッダーと追加ヘッダーを統合した辞書。
+    public static func headersWithAuthorization(
         token: String,
-        with headers: [String: String] = [:]
+        type: AuthorizationHeaderType = .bearer,
+        merging additionalHeaders: [String: String] = [:],
+        baseHeaders: [String: String] = defaultJsonHeaders
     ) -> [String: String] {
-        var tmp = defaultJsonHeaders
-        tmp["Authorization"] = token
-        tmp.merge(headers) { _, new in new }
-        return tmp
+        let authorizationHeader = ["Authorization": "\(type.rawValue) \(token)"]
+
+        return baseHeaders
+            .merging(authorizationHeader, uniquingKeysWith: { _, new in new })
+            .merging(additionalHeaders, uniquingKeysWith: { _, new in new })
     }
 
     var prettyPrintedRequest: String {

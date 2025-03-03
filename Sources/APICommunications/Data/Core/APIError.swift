@@ -49,8 +49,6 @@ public enum APIError: LocalizedError {
     ///
     /// 各エラーケースに応じた適切なメッセージを返す。
     /// - `.server` の場合: サーバーエラーのコード、タイプ、およびメッセージを含む文字列
-    ///   - エラーの `code` が `nil` の場合は `9999` を返す。
-    ///   - エラーの `type` が `nil` の場合は `"Unknown"` を返す。
     /// - `.jsonDecoding`, `.mapping` の場合: 繰り返し発生する場合に開発者へ連絡を促すメッセージ
     /// - `.requestTimedOut`, `.unknown` の場合: 一定時間待ってから再試行するよう促すメッセージ
     private var message: String.LocalizationValue {
@@ -59,7 +57,7 @@ public enum APIError: LocalizedError {
             let serverError = error.mapToServerError()
 
             return """
-            \(serverError.code ?? 9999): \(serverError.type ?? "Unknown")
+            \(serverError.code): \(serverError.type)
             \(serverError.message)
             """
         case .jsonDecoding, .mapping:
@@ -71,14 +69,17 @@ public enum APIError: LocalizedError {
 }
 
 public struct ServerError: Decodable, Sendable {
-    public let type: String?
+    /// エラーコード (基本的には数字)
+    public let code: String
+    /// エラーの種類
+    public let type: String
+    /// エラーの詳細
     public let message: String
-    public let code: Int?
 
     public init(
-        type: String?,
-        message: String,
-        code: Int?
+        code: String = "(unspecified)",
+        type: String = "(unspecified)",
+        message: String
     ) {
         self.type = type
         self.message = message
