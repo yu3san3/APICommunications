@@ -1,7 +1,7 @@
 import Foundation
 import OSLog
 
-public struct APIClient<R: APIRequest>: Initializable {
+public struct APIClient<R: APIRequest>: Initializable, Sendable {
     let logger = Logger(label: "APIClient<\(R.self)>")
 
     private let session: URLSession = {
